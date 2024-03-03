@@ -1,0 +1,299 @@
+openapi: 3.0.3
+info:
+  description: OpenAPI specification example based on Post model
+  title: Post Service API
+  version: 0.0.1
+servers:
+- url: http://localhost:8080/api/v1
+tags:
+- name: post
+paths:
+  /posts:
+    get:
+      description: Fetch all existing posts
+      operationId: getPosts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Post'
+                type: array
+          description: Post list
+        "400":
+          description: Invalid request
+      security:
+      - BearerAuth: []
+      summary: Get all posts
+      tags:
+      - post
+      x-accepts: application/json
+    post:
+      operationId: createPost
+      requestBody:
+        $ref: '#/components/requestBodies/Post'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: Post
+        "400":
+          description: Invalid request
+        "422":
+          description: Validation exception
+      security:
+      - BearerAuth: []
+      summary: Create post
+      tags:
+      - post
+      x-content-type: application/json
+      x-accepts: application/json
+  /posts/{id}:
+    get:
+      description: Get post by id
+      operationId: getPost
+      parameters:
+      - description: Post ID
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: Post
+        "400":
+          description: Invalid request
+      security:
+      - BearerAuth: []
+      summary: Get specific post
+      tags:
+      - post
+      x-accepts: application/json
+  /ws/comments:
+    post:
+      operationId: createComment
+      requestBody:
+        $ref: '#/components/requestBodies/Comment'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: Comment
+        "400":
+          description: Invalid request
+        "422":
+          description: Validation exception
+      security:
+      - BearerAuth: []
+      summary: Create comment
+      tags:
+      - comment
+      x-content-type: application/json
+      x-accepts: application/json
+  /api/auth/signin:
+    post:
+      operationId: signIn
+      requestBody:
+        $ref: '#/components/requestBodies/SignIn'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SignIn'
+                type: array
+          description: Post list
+        "400":
+          description: Invalid request
+        "422":
+          description: Validation exception
+      security:
+      - BearerAuth: []
+      summary: Sign In
+      tags:
+      - auth
+      x-content-type: application/json
+      x-accepts: application/json
+  /api/auth/refresh:
+    post:
+      operationId: refresh
+      requestBody:
+        $ref: '#/components/requestBodies/Refresh'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Refresh'
+                type: array
+          description: Post list
+        "400":
+          description: Invalid request
+        "422":
+          description: Validation exception
+      security:
+      - BearerAuth: []
+      summary: Refresh
+      tags:
+      - auth
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  requestBodies:
+    Post:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Post'
+      description: Post to be created
+      required: true
+    Comment:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Comment'
+      description: Comment to be created
+      required: true
+    SignIn:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SignIn'
+      description: Sign In
+      required: true
+    Refresh:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Refresh'
+      description: Refresh
+      required: true
+  responses:
+    Post:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Post'
+      description: Post
+    Comment:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Comment'
+      description: Comment
+    PostList:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/Post'
+            type: array
+      description: Post list
+    SignIn:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/SignIn'
+            type: array
+      description: Post list
+    Refresh:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/Refresh'
+            type: array
+      description: Post list
+  schemas:
+    Post:
+      example:
+        topic: Hello world
+        description: Lorem Ipsum
+        id: 10
+      properties:
+        id:
+          example: 10
+          format: int64
+          readOnly: true
+          type: integer
+        topic:
+          example: Hello world
+          maxLength: 64
+          minLength: 1
+          type: string
+        description:
+          example: Lorem Ipsum
+          maxLength: 64
+          minLength: 1
+          type: string
+      type: object
+    Comment:
+      example:
+        id: 10
+        postId: 10
+        text: Lorem Ipsum
+      properties:
+        id:
+          example: 10
+          format: int64
+          readOnly: true
+          type: integer
+        postId:
+          example: 10
+          format: int64
+          readOnly: true
+          type: integer
+        text:
+          example: Lorem Ipsum
+          maxLength: 64
+          minLength: 1
+          type: string
+      type: object
+    SignIn:
+      example:
+        accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.pDtE-M44fneD--ljZ9PY3hjPF5HlkNd64_s9w5QdEls
+      properties:
+        accessToken:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          maxLength: 64
+          minLength: 1
+          type: string
+        refreshToken:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.pDtE-M44fneD--ljZ9PY3hjPF5HlkNd64_s9w5QdEls
+          maxLength: 64
+          minLength: 1
+          type: string
+      type: object
+    Refresh:
+      example:
+        refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.pDtE-M44fneD--ljZ9PY3hjPF5HlkNd64_s9w5QdEls
+      properties:
+        refreshToken:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.pDtE-M44fneD--ljZ9PY3hjPF5HlkNd64_s9w5QdEls
+          maxLength: 64
+          minLength: 1
+          type: string
+      type: object
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+

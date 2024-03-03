@@ -1,0 +1,15 @@
+com/example/auth/HttpBearerAuth.class
+com/example/ApiClient.class
+com/example/rest/RefreshDto.class
+com/example/rest/CommentDto.class
+com/example/RFC3339DateFormat.class
+com/example/homework8service/dto/OrderDto.class
+com/example/rest/CommentApi.class
+com/example/rest/CommentApi$1.class
+com/example/auth/Authentication.class
+com/example/ApiClient$ApiClientHttpRequestInterceptor.class
+com/example/auth/HttpBasicAuth.class
+com/example/ApiClient$CollectionFormat.class
+com/example/JavaTimeFormatter.class
+com/example/homework8service/entity/Order.class
+com/example/ServerVariable.class
