@@ -4,7 +4,7 @@ Post Service API
 
 - API version: 0.0.1
 
-- Build date: 2024-03-03T13:10:46.671351+01:00[Europe/Podgorica]
+- Build date: 2024-03-05T17:38:47.025260+01:00[Europe/Podgorica]
 
 OpenAPI specification example based on Post model
 
